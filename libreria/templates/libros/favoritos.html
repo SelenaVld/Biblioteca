@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Mis Favoritos{% endblock %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Mis Favoritos</h1>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for libro in favoritos %}
+            <div class="col mb-4"> <!-- Añadido mb-4 para espacio entre filas -->
+                <div class="card h-100 shadow-lg">
+                    {% if libro.imagen %}
+                        <img src="{{ libro.imagen.url }}" class="card-img-top img-fluid" style="height: 300px; object-fit: cover;" alt="{{ libro.titulo }}">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-dark">
+                            <a href="{% url 'detalle_libro' libro.id %}" class="text-decoration-none text-dark">{{ libro.titulo }}</a>
+                        </h5>
+                        <p class="card-text">{{ libro.descripcion|truncatewords:20 }}</p>
+                        <div class="mt-auto">
+                            <a href="{% url 'detalle_libro' libro.id %}" class="btn btn-primary">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        transition: transform 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .card-title a {
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .card-title a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}

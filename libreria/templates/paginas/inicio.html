@@ -1,0 +1,44 @@
+<!-- templates/paginas/inicio.html -->
+
+{% extends "base.html" %}
+
+{% block titulo %}Inicio - LookBook{% endblock %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row align-items-stretch">
+        <div class="col-md-12 text-center mb-4">
+            <h1 class="display-4 fw-bold text-primary">Bienvenido a The Reader's Crypt</h1>
+            <p class="fs-4">Descubre tu siguiente aventura</p>
+        </div>
+        <div class="col-md-12">
+            <div class="bg-primary text-white rounded-3 shadow-lg p-5">
+                <h2>Explora The Reader's Crypt</h2>
+                <p>Encuentra y explora una vasta colección de libros en nuestro catálogo digital.</p>
+            </div>
+        </div>
+
+        <div class="col-md-12 mt-5">
+            <h2>¡Nuestra selección diaria!</h2>
+            <div class="row daily-picks">
+                {% for libro in libros_recomendados %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 d-flex flex-column">
+                            {% if libro.imagen %}
+                                <img src="{{ libro.imagen.url }}" class="card-img-top" alt="{{ libro.titulo }}">
+                            {% endif %}
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-dark">{{ libro.titulo }}</h5>
+                                <p class="card-text">{{ libro.descripcion|truncatewords:20 }}</p>
+                                <div class="mt-auto">
+                                    <a href="{% url 'detalle_libro' libro.id %}" class="btn btn-primary mt-3">Ver detalles</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block titulo %}Perfil - {{ user.username }}{% endblock %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2 class="mb-0">Perfil de Usuario</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-md-4 text-center">
+                                <label for="profile-image-input" style="cursor: pointer;">
+                                    {% if user.profile.imagen %}
+                                        <img src="{{ user.profile.imagen.url }}" class="rounded-circle img-fluid" alt="Avatar de {{ user.username }}" style="width: 150px; height: 150px; object-fit: cover;">
+                                    {% else %}
+                                        <img src="https://via.placeholder.com/150" class="rounded-circle img-fluid" alt="Avatar de {{ user.username }}">
+                                    {% endif %}
+                                </label>
+                                <input type="file" id="profile-image-input" name="imagen" style="display: none;" onchange="this.form.submit()">
+                            </div>
+                            <div class="col-md-8">
+                                <h4 class="font-weight-bold">{{ user.username }}</h4>
+                                <p class="text-muted">Correo Electrónico: {{ user.email }}</p>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary btn-block" onclick="location.href='{% url 'settings' %}'">
+                                <i class="fas fa-cog"></i> Ajustes
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-danger btn-block" onclick="location.href='{% url 'logout' %}'">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <small class="text-muted">¡Gracias por ser parte de nuestra comunidad!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

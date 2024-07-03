@@ -1,0 +1,47 @@
+<!-- form.html -->
+<form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    {% for campo in formulario %}
+    <div class="mb-3">
+        <label for="" class="form-label">{{ campo.label }}: </label>
+        
+        {% if campo.field.widget.input_type == 'file' and campo.value %}
+        <br/>
+        {% if campo.name == 'imagen' %}
+        <img src="{{MEDIA_URL}}/imagenes/{{ campo.value }}" width="100" alt="" srcset="">
+        {% elif campo.name == 'pdf' %}
+        <a href="{{MEDIA_URL}}/pdfs/{{ campo.value }}" target="_blank">Descargar PDF</a>
+        {% endif %}
+        {% endif %}
+        
+        <input
+            type="{{ campo.field.widget.input_type }}"
+            class="form-control"
+            name="{{ campo.name }}"
+            id=""
+            aria-describedby="helpId"
+            placeholder="{{ campo.label }}"
+            value="{{ campo.value | default:'' }}"
+        />
+        
+        <small id="helpId" class="form-text text-muted"></small>
+    </div>
+    <div class="col-12 help-text">{{ campo.errors }}</div>
+    {% endfor %}
+    
+    <input
+        name=""
+        id=""
+        class="btn btn-success"
+        type="submit"
+        value="Enviar Información"
+    />
+    <a
+        name=""
+        id=""
+        class="btn btn-primary"
+        href="{% url 'libros' %}"
+        role="button"
+    >Cancelar</a>
+  </form>
+  
